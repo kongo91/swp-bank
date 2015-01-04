@@ -1,0 +1,7 @@
+pl\edu\wat\wcy\swp\bank\entities\Profil.class
+pl\edu\wat\wcy\swp\bank\repositories\CustomerRepository.class
+pl\edu\wat\wcy\swp\bank\entities\BankAccount.class
+pl\edu\wat\wcy\swp\bank\repositories\ProfilRepository.class
+pl\edu\wat\wcy\swp\bank\entities\Transaction.class
+pl\edu\wat\wcy\swp\bank\entities\Customer.class
+pl\edu\wat\wcy\swp\bank\controllers\CustomerController.class

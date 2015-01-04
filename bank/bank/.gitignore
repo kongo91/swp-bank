@@ -1,0 +1,13 @@
+.gradle
+.DS_Store
+.idea/
+*.iml
+*.apk
+*.idea/
+*.iml
+*.gradle
+*gradle
+*build
+*.apk
+*.war
+./target
