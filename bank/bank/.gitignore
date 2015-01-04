@@ -11,3 +11,6 @@
 *.apk
 *.war
 ./target
+*./target
+*.class
+*.lst
