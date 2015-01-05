@@ -1,6 +1,7 @@
 package pl.edu.wat.wcy.swp.bank.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by Konrad on 2015-01-03.
@@ -31,6 +32,9 @@ public class Profil {
     @Column
     @Lob
     private String adress;
+
+    @OneToMany(mappedBy = "profil")
+    private List<BankAccount> bankAccounts;
 
     public Long getId() {
         return id;
@@ -86,5 +90,13 @@ public class Profil {
 
     public void setAdress(String adress) {
         this.adress = adress;
+    }
+
+    public List<BankAccount> getBankAccounts() {
+        return bankAccounts;
+    }
+
+    public void setBankAccounts(List<BankAccount> bankAccounts) {
+        this.bankAccounts = bankAccounts;
     }
 }
