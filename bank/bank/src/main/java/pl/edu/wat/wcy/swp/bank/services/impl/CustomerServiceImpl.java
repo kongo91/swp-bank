@@ -21,4 +21,5 @@ public class CustomerServiceImpl implements CustomerService {
     public List<Customer> findAll() {
         return repository.findAll();
     }
+
 }
