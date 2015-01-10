@@ -11,6 +11,6 @@
     <title></title>
 </head>
 <body>
-    Hey! Hi! Hello! ${str}
+    Hey! Hi! Hello! ${str} ${customers}
 </body>
 </html>
