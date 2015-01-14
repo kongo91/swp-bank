@@ -1,40 +1,55 @@
 package pl.edu.wat.wcy.swp.bank.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.*;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Konrad on 2015-01-03.
  */
 @Entity
+@XmlRootElement(name="profil")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Profil {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @XmlElement
     private Long id;
 
     @Column
+    @XmlElement
     private String name;
 
     @Column
+    @XmlElement
     private String surname;
 
     @OneToOne
     @JoinColumn(name = "customer_id")
+    @XmlTransient
     private Customer customer;
 
     @Column
+    @XmlElement
     private String email;
 
     @Column
+    @XmlElement
     private String phoneNumber;
 
     @Column
     @Lob
+    @XmlElement
     private String adress;
 
     @OneToMany(mappedBy = "profil")
-    private List<BankAccount> bankAccounts;
+    @XmlElement
+    private Set<BankAccount> bankAccounts;
 
     public Long getId() {
         return id;
@@ -92,11 +107,11 @@ public class Profil {
         this.adress = adress;
     }
 
-    public List<BankAccount> getBankAccounts() {
+    public Set<BankAccount> getBankAccounts() {
         return bankAccounts;
     }
 
-    public void setBankAccounts(List<BankAccount> bankAccounts) {
+    public void setBankAccounts(Set<BankAccount> bankAccounts) {
         this.bankAccounts = bankAccounts;
     }
 }

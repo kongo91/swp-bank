@@ -1,30 +1,42 @@
 package pl.edu.wat.wcy.swp.bank.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.*;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Konrad on 2015-01-03.
  */
 @Entity
+@XmlRootElement(name="bankaccount")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class BankAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @XmlElement
     private Long accountNumber;
 
     @Column
+    @XmlElement
     private String accountName;
 
     @Column
+    @XmlElement
     private Float balance;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="profil_id")
+    @XmlTransient
     private Profil profil;
 
     @OneToMany(mappedBy = "bankAccount")
-    private List<Transaction> transactions;
+    @XmlElement
+    private Set<Transaction> transactions;
 
     public Long getAccountNumber() {
         return accountNumber;
@@ -58,11 +70,11 @@ public class BankAccount {
         this.profil = profil;
     }
 
-    public List<Transaction> getTransactions() {
+    public Set<Transaction> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(List<Transaction> transactions) {
+    public void setTransactions(Set<Transaction> transactions) {
         this.transactions = transactions;
     }
 }

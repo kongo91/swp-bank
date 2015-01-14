@@ -1,49 +1,37 @@
-package pl.edu.wat.wcy.swp.bank.entities;
+package pl.edu.wat.wcy.swp.bank.dtos;
 
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import javax.xml.bind.annotation.*;
+import javax.persistence.Column;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 /**
- * Created by Konrad on 2015-01-03.
+ * Created by Konrad on 2015-01-14.
  */
-@Entity
 @XmlRootElement(name="transaction")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Transaction {
+public class TransactionDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @XmlElement
     private Long id;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bank_account_id")
-    @XmlTransient
-    private BankAccount bankAccount;
-
-    @Column
-    @Type(type = "timestamp")
     @XmlElement
-    private Date transactionDateTime;
+    private String date;
 
-    @Column
+    @XmlElement
+    private String time;
+
     @XmlElement
     private Float amount;
 
-    @Column
     @XmlElement
     private String name;
 
-    @Column
     @XmlElement
     private String surname;
 
-    @Column
-    @Lob
     @XmlElement
     private String adress;
 
@@ -51,15 +39,11 @@ public class Transaction {
     @XmlElement
     private String title;
 
-    @Column
     @XmlElement
     private Float balanceBefore;
 
-    @Column
-    @Enumerated(EnumType.STRING)
     @XmlElement
-    private TransactionType transactionType;
-
+    private String transactionType;
 
     public Long getId() {
         return id;
@@ -69,20 +53,20 @@ public class Transaction {
         this.id = id;
     }
 
-    public BankAccount getBankAccount() {
-        return bankAccount;
+    public String getDate() {
+        return date;
     }
 
-    public void setBankAccount(BankAccount bankAccount) {
-        this.bankAccount = bankAccount;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public Date getTransactionDateTime() {
-        return transactionDateTime;
+    public String getTime() {
+        return this.time;
     }
 
-    public void setTransactionDateTime(Date transactionDateTime) {
-        this.transactionDateTime = transactionDateTime;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public Float getAmount() {
@@ -133,11 +117,11 @@ public class Transaction {
         this.balanceBefore = balanceBefore;
     }
 
-    public TransactionType getTransactionType() {
+    public String getTransactionType() {
         return transactionType;
     }
 
-    public void setTransactionType(TransactionType transactionType) {
+    public void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
     }
 }

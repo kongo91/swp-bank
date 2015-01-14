@@ -26,8 +26,46 @@
               </property>
        </bean>
        <context:annotation-config />
-       <!--<mvc:annotation-driven/>-->
 
+
+       <mvc:annotation-driven />
+
+       <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager"/>
+
+       <!-- menedzer zwracanego kontentu decyduje o tym czy ma byc xml, json czy jakies inne badziewie -->
+       <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+              <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
+              <property name="defaultViews">
+                     <list>
+                            <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+
+                            <bean class="org.springframework.web.servlet.view.xml.MarshallingView">
+                                   <constructor-arg>
+                                          <bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+                                                 <property name="packagesToScan">
+                                                        <list>
+                                                               <value>pl.edu.wat.wcy.swp.bank.entities</value>
+                                                        </list>
+                                                 </property>
+                                          </bean>
+                                   </constructor-arg>
+                            </bean>
+                     </list>
+              </property>
+       </bean>
+
+       <bean id="contentNegotiationManager"
+             class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+              <property name="ignoreAcceptHeader" value="true"/>
+              <property name="defaultContentType" value="text/html"/>
+
+              <property name="mediaTypes">
+                     <map>
+                            <entry key="json" value="application/json"/>
+                            <entry key="xml" value="application/xml"/>
+                     </map>
+              </property>
+       </bean>
 
        <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
               <property name="driverClassName" value="${database.driverClassName}"/>
@@ -44,5 +82,7 @@
         <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
             <property name="entityManagerFactory" ref="entityManagerFactory" />
         </bean>
+
+
 
 </beans>
