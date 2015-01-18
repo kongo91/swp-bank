@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml xmlns="http://www.w3.org/2001/vxml" version="2.1"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.w3.org/2001/vxml http://www.w3.org/TR/2007/REC-voicexml21-20070619/vxml.xsd">
+ 
+	<script>
+		<![CDATA[
+			function GetData(d, t) {
+				return (d.getElementsByTagName(t).item(0).firstChild.data);
+			}
+		]]>
+	</script>
+ 
+    <form id="acc">
+        <grammar type="application/x-nuance-gsl">
+            <![CDATA[
+   MainRule[
+    ( TypeChoice CurrencyChoice CardChoice )
+   ]
+    
+   TypeChoice[
+     [ normal ]  { <type "normal"> }
+     [ saving ] { <type "saving"> }
+   ]
+    
+   CurrencyChoice[
+     [ dollar dollars usd ] { <currency "usd"> }
+     [ euro eur ]   { <currency "eur"> }
+    ]
+    
+   CardChoice[
+     [ with yes ] { <card "with"> }
+     [ without no ]  { <card "without"> }
+   ]
+    
+    ]]>
+        </grammar>
+        <var name="cidv" />
+		<var name="cardv" />
+        <initial name="init">
+            <prompt>
+                Tell me type of account, account currency, and with or without card.
+            </prompt>
+
+            <nomatch count="1">
+                <prompt>
+                    I will only ask for one thing per interaction
+                </prompt>
+                <assign name="init" expr="true"/>
+                <reprompt/>
+            </nomatch>
+            <noinput>
+                <prompt>
+                    I will only ask for one thing per interaction
+                </prompt>
+                <assign name="init" expr="true"/>
+                <reprompt/>
+            </noinput>
+        </initial>
+        <field name="type">
+            <prompt>Tell me type of account. Normal or saving?</prompt>
+        </field>
+        <field name="currency">
+            <prompt>Tell me currency of accout. Euro or dollar?</prompt>
+        </field>
+        <field name="card">
+            <prompt>Tell me if you want accout with or without card</prompt>
+        </field>
+        <filled mode="all">
+			<if cond="card == 'with'">
+					<assign name="cardv" expr="true" />
+			<elseif cond="card == 'without'"/>
+					<assign name="cardv" expr="false" />
+			</if>
+			<assign name="typev" expr="type" />
+			<assign name="currv" expr="currency" />
+            <prompt>
+                Thank you, you choose:
+                <value expr="card"/> card, <break size="small"/>
+                <value expr="type"/> type, <break size="small"/>
+                currency <value expr="currency"/> <break size="small"/>
+                Now, we are creating you new account.
+            </prompt>
+			<data name="opData" srcexpr="'http://localhost:8080/bank/xml/saveaccount/'+cidv+'?isCard='+cardv+'&amp;curr='+currv+'&amp;type='+typev" method="post"/>
+			<assign name="document.opData" expr="opData.documentElement" />
+			<prompt>
+				We created new account! New account number is: <say-as interpret-as="vxml:digits"> <value expr="GetData(opData, 'accountNumber')" /> </say-as>
+			</prompt>
+        </filled>
+    </form>
+
+</vxml>

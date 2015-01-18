@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	
+<grammar xmlns="http://www.w3.org/2001/06/grammar" xml:lang="en-US"> 
+    
+    <rule id="MENURULE" scope="public">
+                <one-of>
+						<item> create account
+							<tag> out.menu = "account";</tag>
+						</item>
+						<item> check balance
+							<tag> out.menu = "balance";</tag>
+						</item>
+						<item> operations
+							<tag> out.menu = "operations";</tag>
+						</item>
+				</one-of>
+    </rule>
+    
+</grammar>

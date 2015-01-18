@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml xmlns="http://www.w3.org/2001/vxml" version="2.1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.w3.org/2001/vxml http://www.w3.org/TR/2007/REC-voicexml21-20070619/vxml.xsd">
+	
+	<script>
+		<![CDATA[
+			function GetData(d, t) {
+				return (d.getElementsByTagName(t).item(0).firstChild.data);
+			}
+		]]>
+	</script>
+	
+	<var name="customerIdV" expr="'0'" />
+	<var name="pinV" expr="'0'" />
+	
+	<nomatch>
+		Please repeat, i did't understand.
+		<reprompt/>
+	</nomatch>
+
+	<noinput>
+		Please repeat, i didn't hear.
+		<reprompt/>
+	</noinput>
+	
+	<form id="start">
+		<block name="start">
+            <prompt> Welcome to Bank System. <break size="small"/> </prompt>
+			<goto next="#login" />
+        </block>
+	</form>
+	
+	<form id="login">
+        <field name="customerid"  type="digits?maxlength=6">
+            <prompt>What is your customer ID</prompt>
+        </field>
+        <field name="pin"  type="digits?maxlength=4">
+            <prompt>What is your PIN</prompt>
+        </field>
+        <filled mode="all">
+	        <assign name="customerIdV" expr="customerid" />
+			<assign name="pinV" expr="pin" />
+			<goto next="#isLogin" />
+        </filled>
+    </form>
+	
+	<form id="isLogin">
+		<subdialog name="subislogin" srcexpr="'http://localhost:8080/bank/xml/login/'+customerIdV+'/'+pinV" />
+		<filled namelist="subislogin">
+			<if cond="subislogin.succeed == '1'">
+				<goto next="#menu" />
+			<elseif cond="subislogin.succeed == '0'"/>
+				<goto next="#loginagain" />
+			</if>
+		</filled>
+	</form>
+	
+	<form id="menu">
+		<field name="menu">
+			<prompt>
+				Choose one option <break size="small"/> Create Account <break size="small"/> Check balance <break size="small"/> Operations
+			</prompt>
+			<grammar src="bankgrammar.xml#MENURULE" type="application/grammar-xml"/>
+		</field>
+		<filled namelist="menu">
+			<if cond="menu == 'account'">
+				<goto next="#acc" />
+			<elseif cond="menu == 'balance'" />
+				<goto next="#blc" />
+			<elseif cond="menu == 'operations'" />
+				<goto next="#op" />
+			<else />
+				<prompt>
+					Error.
+				</prompt>
+				<goto next="#backtomenu" />
+			</if>
+		</filled>
+	</form>
+	
+	<form id="acc">
+		<subdialog name="subbody" src="account_sub.xml">
+			<param name="cidv" expr="customerIdV" />
+		</subdialog>
+	</form>
+	
+	<form id="blc">
+		<subdialog name="subb" srcexpr="'http://localhost:8080/bank/xml/balance/'+customerIdV">
+		</subdialog>
+		<subdialog name="subback" src="confirmprompt_sub.xml">
+				<param name="confirm_prompt" expr="'Would you like to check something else?'" />
+		</subdialog>
+		<filled namelist="subback">
+				<if cond="subback.succeed == '1'">
+					<goto next="#menu"/>
+				<elseif cond="subback.succeed == '0'"/>
+					<prompt>Thank You for Your call. Goodbye.</prompt>	
+					<exit />
+				</if>
+		</filled>
+	</form>
+	
+	<form id="op">
+		<field name="optype">
+				<prompt>
+					What kind of operation? Incoming or outbound?
+				</prompt>
+				<grammar src="bankgrammar.xml#OPRULE" type="application/grammar-xml"/>
+		</field>
+		<filled namelist="optype">
+			<if cond="optype == 'in'">
+				<data name="opData" srcexpr="'http://localhost:8080/bank/xml/transaction/incoming/'+customerIdV" />
+				<assign name="document.opData" expr="opData.documentElement" />
+				<prompt>
+					Your last incoming operation was from  <value expr="GetData(opData, 'surname')" /> <value expr="GetData(opData, 'name')" /> <break strength="small"/> 
+					on <say-as interpret-as="vxml:date"> <value expr="GetData(opData, 'date')" /> </say-as> <break size="small"/> 
+					at <say-as interpret-as="vxml:time"> <value expr="GetData(opData, 'time')" />h </say-as> <break size="small"/> 
+					with title <value expr="GetData(opData, 'title')" /> <break size="small"/> 
+					and amount <say-as interpret-as="vxml:currency"> USD<value expr="GetData(opData, 'amount')" /> </say-as> <break size="small"/> 
+				</prompt>
+				<goto next="#backtomenu" />
+			<elseif cond="optype == 'out'" />
+				<data name="opData" srcexpr="'http://localhost:8080/bank/xml/transaction/outbound/'+customerIdV" />
+				<assign name="document.opData" expr="opData.documentElement" />
+				<prompt>
+					Your last incoming operation was to  <value expr="GetData(opData, 'surname')" /> <value expr="GetData(opData, 'name')" /> <break strength="small"/> 
+					on <say-as interpret-as="vxml:date"> <value expr="GetData(opData, 'date')" /> </say-as> <break size="small"/> 
+					at <say-as interpret-as="vxml:time"> <value expr="GetData(opData, 'time')" />h </say-as> <break size="small"/> 
+					with title <value expr="GetData(opData, 'title')" /> <break size="small"/> 
+					and amount <say-as interpret-as="vxml:currency"> USD<value expr="GetData(opData, 'amount')" /> </say-as> <break size="small"/> 
+				</prompt>
+				<goto next="#backtomenu" />
+			<else />
+				<prompt>
+					Error
+				</prompt>
+				<goto next="#backtomenu" />
+			</if>
+			
+		</filled>
+	</form>
+	
+	<form id="backtomenu"> 
+		<subdialog name="subback" src="confirmprompt_sub.xml">
+				<param name="confirm_prompt" expr="'Would you like to check something else?'" />
+		</subdialog>
+		<filled namelist="subback">
+				<if cond="subback.succeed == '1'">
+					<goto next="#menu"/>
+				<elseif cond="subback.succeed == '0'"/>
+					<prompt>Thank You for Your call. Goodbye.</prompt>	
+					<exit />
+				</if>
+		</filled>
+	</form>
+	
+	
+	
+	<form id="loginagain"> 
+		<subdialog name="subislogin" src="confirmprompt_sub.xml">
+				<param name="confirm_prompt" expr="'Would You like to login once again?'" />
+		</subdialog>
+		<filled namelist="subislogin">
+				<if cond="subislogin.succeed == '1'">
+					<goto next="#login"/>
+				<elseif cond="subislogin.succeed == '0'"/>
+					<prompt>Thank You for Your call. Goodbye.</prompt>	
+					<exit />
+				</if>
+		</filled>
+	</form>
+	
+</vxml>
