@@ -1,11 +1,11 @@
 package pl.edu.wat.wcy.swp.bank.entities;
 
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -21,17 +21,17 @@ import java.util.Date;
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @XmlElement
     private Long customerId;
 
     @Column
     @XmlElement
-    private Integer PIN;
+    private String PIN;
 
 
     @OneToOne (mappedBy = "customer",fetch = FetchType.LAZY)
     @XmlElement
+    @Cascade({CascadeType.ALL, CascadeType.DELETE, CascadeType.SAVE_UPDATE })
     private Profil profil;
 
     @Column
@@ -48,11 +48,11 @@ public class Customer {
         this.customerId = customerId;
     }
 
-    public Integer getPIN() {
+    public String getPIN() {
         return PIN;
     }
 
-    public void setPIN(Integer PIN) {
+    public void setPIN(String PIN) {
         this.PIN = PIN;
     }
 

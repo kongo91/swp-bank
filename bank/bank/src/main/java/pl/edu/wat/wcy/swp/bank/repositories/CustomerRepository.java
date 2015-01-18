@@ -10,6 +10,6 @@ import pl.edu.wat.wcy.swp.bank.entities.Customer;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     @Query("select c from Customer c where c.customerId = ?1 and c.PIN = ?2")
-    Customer findByIdAndPin(Long customerId, Integer Pin);
+    Customer findByIdAndPin(Long customerId, String Pin);
 
 }

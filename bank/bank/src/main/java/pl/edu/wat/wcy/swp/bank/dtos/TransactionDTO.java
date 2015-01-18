@@ -35,12 +35,8 @@ public class TransactionDTO {
     @XmlElement
     private String adress;
 
-    @Column
     @XmlElement
     private String title;
-
-    @XmlElement
-    private Float balanceBefore;
 
     @XmlElement
     private String transactionType;
@@ -107,14 +103,6 @@ public class TransactionDTO {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public Float getBalanceBefore() {
-        return balanceBefore;
-    }
-
-    public void setBalanceBefore(Float balanceBefore) {
-        this.balanceBefore = balanceBefore;
     }
 
     public String getTransactionType() {

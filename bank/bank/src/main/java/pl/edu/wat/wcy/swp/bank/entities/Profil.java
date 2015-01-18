@@ -1,9 +1,10 @@
 package pl.edu.wat.wcy.swp.bank.entities;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import javax.xml.bind.annotation.*;
 import java.util.List;
 import java.util.Set;
@@ -31,7 +32,6 @@ public class Profil {
 
     @OneToOne
     @JoinColumn(name = "customer_id")
-    @XmlTransient
     private Customer customer;
 
     @Column
@@ -49,6 +49,7 @@ public class Profil {
 
     @OneToMany(mappedBy = "profil")
     @XmlElement
+    @Cascade({CascadeType.ALL, CascadeType.DELETE, CascadeType.SAVE_UPDATE })
     private Set<BankAccount> bankAccounts;
 
     public Long getId() {

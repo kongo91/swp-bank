@@ -27,7 +27,6 @@ public class TransactionConverter {
         tDTO.setSurname(t.getSurname());
         tDTO.setAdress(t.getAdress());
         tDTO.setTitle(t.getTitle());
-        tDTO.setBalanceBefore(t.getBalanceBefore());
         tDTO.setTransactionType(t.getTransactionType().toString());
 
         return tDTO;

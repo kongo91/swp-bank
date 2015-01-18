@@ -1,0 +1,14 @@
+INSERT INTO bank.customer (customerId, PIN, lastLoginTime) VALUES (1, 1233, '2015-01-10 13:54:34');
+INSERT INTO bank.customer (customerId, PIN, lastLoginTime) VALUES (2, 1233, '2015-01-10 13:54:34');
+INSERT INTO bank.customer (customerId, PIN, lastLoginTime) VALUES (3, 1233, '2015-01-10 13:54:34');
+INSERT INTO bank.customer (customerId, PIN, lastLoginTime) VALUES (4, 1233, '2015-01-10 13:54:34');
+INSERT INTO bank.customer (customerId, PIN, lastLoginTime) VALUES (5, 1233, '2015-01-10 13:54:34');
+INSERT INTO bank.customer (customerId, PIN, lastLoginTime) VALUES (6, 1233, '2015-01-10 13:54:34');
+INSERT INTO bank.customer (customerId, PIN, lastLoginTime) VALUES (7, 1233, '2015-01-10 13:54:34');
+INSERT INTO bank.customer (customerId, PIN, lastLoginTime) VALUES (8, 1233, '2015-01-10 13:54:34');
+INSERT INTO bank.customer (customerId, PIN, lastLoginTime) VALUES (9, 1233, '2015-01-10 13:54:34');
+INSERT INTO bank.customer (customerId, PIN, lastLoginTime) VALUES (10, 1233, '2015-01-10 13:54:34');
+INSERT INTO bank.customer (customerId, PIN, lastLoginTime) VALUES (11, 1233, '2015-01-10 13:54:34');
+INSERT INTO bank.customer (customerId, PIN, lastLoginTime) VALUES (39, 76555, '2015-01-17 02:02:55');
+INSERT INTO bank.customer (customerId, PIN, lastLoginTime) VALUES (100000001, 307127, '2015-01-17 15:06:00');
+INSERT INTO bank.customer (customerId, PIN, lastLoginTime) VALUES (999123876, 853743, '2015-01-17 15:03:50');

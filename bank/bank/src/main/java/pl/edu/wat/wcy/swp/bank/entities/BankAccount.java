@@ -1,11 +1,11 @@
 package pl.edu.wat.wcy.swp.bank.entities;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import javax.xml.bind.annotation.*;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,13 +17,13 @@ import java.util.Set;
 public class BankAccount {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @XmlElement
-    private Long accountNumber;
+    private String accountNumber;
 
     @Column
     @XmlElement
-    private String accountName;
+    @Enumerated(EnumType.STRING)
+    private BankAccountType accountType;
 
     @Column
     @XmlElement
@@ -36,22 +36,30 @@ public class BankAccount {
 
     @OneToMany(mappedBy = "bankAccount")
     @XmlElement
+    @Cascade({CascadeType.ALL, CascadeType.DELETE, CascadeType.SAVE_UPDATE })
     private Set<Transaction> transactions;
 
-    public Long getAccountNumber() {
+    @Column
+    @Enumerated(EnumType.STRING)
+    private CurrencyType currency;
+
+    @Column
+    private Boolean isCard;
+
+    public String getAccountNumber() {
         return accountNumber;
     }
 
-    public void setAccountNumber(Long accountNumber) {
+    public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
 
-    public String getAccountName() {
-        return accountName;
+    public BankAccountType getAccountType() {
+        return accountType;
     }
 
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
+    public void setAccountType(BankAccountType accountType) {
+        this.accountType = accountType;
     }
 
     public Float getBalance() {
@@ -76,5 +84,21 @@ public class BankAccount {
 
     public void setTransactions(Set<Transaction> transactions) {
         this.transactions = transactions;
+    }
+
+    public CurrencyType getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(CurrencyType currency) {
+        this.currency = currency;
+    }
+
+    public Boolean getIsCard() {
+        return isCard;
+    }
+
+    public void setIsCard(Boolean isCard) {
+        this.isCard = isCard;
     }
 }

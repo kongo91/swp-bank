@@ -1,0 +1,16 @@
+INSERT INTO profil (id, adress, email, name, phoneNumber, surname, customer_id) VALUES (1, 'Warsaw', 'm@m.ccom', 'Smith', '785119959', 'John', 11);
+INSERT INTO bank.profil (id, adress, email, name, phoneNumber, surname, customer_id) VALUES (2, 'Warsaw', 'a@a.com', 'Jewell', '851111111', 'Parker', 1);
+INSERT INTO bank.profil (id, adress, email, name, phoneNumber, surname, customer_id) VALUES (3, 'Warsaw', 's@s.com', 'Skyler', '890222222', 'Hilary', 2);
+INSERT INTO bank.profil (id, adress, email, name, phoneNumber, surname, customer_id) VALUES (4, 'New York', 'd@d.com', 'Shelley', '890333333', 'Devin', 3);
+INSERT INTO bank.profil (id, adress, email, name, phoneNumber, surname, customer_id) VALUES (5, 'New York', 'f@f.com', 'Skyler', '890444444', 'Aubrey', 5);
+INSERT INTO bank.profil (id, adress, email, name, phoneNumber, surname, customer_id) VALUES (6, 'London', 'q@q.com', 'Blair', '890555555', 'John', 6);
+INSERT INTO bank.profil (id, adress, email, name, phoneNumber, surname, customer_id) VALUES (7, 'Berlin', 'w@w.com', 'Jones', '890666666', 'Sidney', 7);
+INSERT INTO bank.profil (id, adress, email, name, phoneNumber, surname, customer_id) VALUES (8, 'Paris', 'e@e.com', 'Moore', '890777777', 'Dale', 8);
+INSERT INTO bank.profil (id, adress, email, name, phoneNumber, surname, customer_id) VALUES (9, 'Moscow', 'r@r.com', 'Harris', '890888888', 'Brian', 9);
+INSERT INTO bank.profil (id, adress, email, name, phoneNumber, surname, customer_id) VALUES (10, 'New York', 'z@z.com', 'Garcia', '890999999', 'Harper', 10);
+INSERT INTO bank.profil (id, adress, email, name, phoneNumber, surname, customer_id) VALUES (11, 'Warsaw', 'x@x.com', 'Martinez', '890121212', 'Ronnie', 4);
+INSERT INTO bank.profil (id, adress, email, name, phoneNumber, surname, customer_id) VALUES (12, 'Dublin', 'c@c.com', 'Robinson', '890232323', 'Mel', 39);
+INSERT INTO bank.profil (id, adress, email, name, phoneNumber, surname, customer_id) VALUES (13, null, 'j@t.com', 'Travis', '8908778778', 'John', null);
+INSERT INTO bank.profil (id, adress, email, name, phoneNumber, surname, customer_id) VALUES (15, null, 'b@s.com', 'Spencer', '866638987', 'Bill', 999123876);
+INSERT INTO bank.profil (id, adress, email, name, phoneNumber, surname, customer_id) VALUES (16, null, 'j@t.com', 'Travis', '8908778778', 'John', null);
+INSERT INTO bank.profil (id, adress, email, name, phoneNumber, surname, customer_id) VALUES (17, null, 'j@t.com', 'Travis', '8908778778', 'John', 100000001);

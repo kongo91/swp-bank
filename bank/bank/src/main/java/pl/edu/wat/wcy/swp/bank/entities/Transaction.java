@@ -20,9 +20,8 @@ public class Transaction {
     private Long id;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "bank_account_id")
-    @XmlTransient
     private BankAccount bankAccount;
 
     @Column
@@ -59,6 +58,9 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     @XmlElement
     private TransactionType transactionType;
+
+    @Column
+    private String accountNumber;
 
 
     public Long getId() {
@@ -139,5 +141,13 @@ public class Transaction {
 
     public void setTransactionType(TransactionType transactionType) {
         this.transactionType = transactionType;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 }
