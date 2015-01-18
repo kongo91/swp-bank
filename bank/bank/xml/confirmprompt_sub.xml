@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml xmlns="http://www.w3.org/2001/vxml" version="2.1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.w3.org/2001/vxml http://www.w3.org/TR/2007/REC-voicexml21-20070619/vxml.xsd">
+<form id="more">
+	<var name="confirm_prompt" />
+
+	<field name="field_confirm" type="boolean">
+		<prompt>
+			<value expr="confirm_prompt" />
+		</prompt>
+	</field>	 
+	<block namelist='field_confirm'>
+			<if cond="field_confirm">
+				<var name="succeed" expr="'1'" />
+			<else />
+				<var name="succeed" expr="'0'" />
+			</if>
+			<return namelist="succeed" />
+	</block>
+	
+</form>
+
+</vxml>
