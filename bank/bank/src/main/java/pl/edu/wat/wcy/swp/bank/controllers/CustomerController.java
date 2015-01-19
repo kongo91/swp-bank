@@ -104,8 +104,14 @@ public class CustomerController {
 
         Customer customer = customerRepository.findOne(id);
         model.addAttribute("customer",customer);
-        float balance = bankAccountRepository.getBalance(id);
+        float balance = 0;
+        try {
+            balance = bankAccountRepository.getBalance(id);
+        }catch(NullPointerException e){
+            e.printStackTrace();
+        }
         model.addAttribute("balance",balance);
+
         List<BankAccount> accounts = bankAccountRepository.getBankAccountByCustomerId(id);
         if (accounts == null)
             accounts = new ArrayList<BankAccount>();
@@ -199,6 +205,7 @@ public class CustomerController {
 
         if (b != null){
             transaction.setBankAccount(b);
+            transaction.setTransactionDateTime(new Date());
             transactionRepository.saveAndFlush(transaction);
         }
 
@@ -211,9 +218,9 @@ public class CustomerController {
         Logger log = Logger.getLogger("Contorller");
         log.info("Delete transaction: "+tid+ ", on customer id: "+id);
 
-        Transaction b = transactionRepository.findOne(tid);
-        if (b != null){
-            transactionRepository.delete(b);
+        Transaction t = transactionRepository.findOne(tid);
+        if (t != null){
+            transactionRepository.delete(t);
         }
 
         return "redirect:../../show/"+id;

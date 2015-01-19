@@ -36,7 +36,7 @@ public class BankAccount {
 
     @OneToMany(mappedBy = "bankAccount")
     @XmlElement
-    @Cascade({CascadeType.ALL, CascadeType.DELETE, CascadeType.SAVE_UPDATE })
+    @Cascade({CascadeType.ALL, CascadeType.DELETE })
     private Set<Transaction> transactions;
 
     @Column

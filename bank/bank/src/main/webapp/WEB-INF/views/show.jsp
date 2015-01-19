@@ -253,7 +253,7 @@
     </div>
     <div class="captionA">Dodaj Transakcje</div>
     <div id="form3" class="form">
-      <form:form action="../saveaccount/${customer.customerId}" modelAttribute="newt">
+      <form:form action="../savetransaction/${customer.customerId}" modelAttribute="newt">
         <div class="fieldA"><p class="fieldlabelA">Na/z konta: </p>
           <form:select path="bankAccount.accountNumber">
             <form:options items="${accnums}" />
