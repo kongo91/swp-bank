@@ -64,6 +64,7 @@ public class CustomerController {
 
         Customer cc = new Customer();
         cc.setPIN(randomPIN());
+        cc.setCustomerId(randomCID());
         cc.setProfil(new Profil());
 
         m.addAttribute("customers",customers);
@@ -241,6 +242,24 @@ public class CustomerController {
         }
 
         return result;
+    }
+
+    private Long randomCID(){
+        Random random = new Random();
+        long  r = random.nextLong();
+        r = Math.abs(r);
+        String result = Long.toString(r);
+        if (result.length()>8){
+            result = result.substring(0,8);
+        }else if (result.length()<8){
+            int tofill = 8 - result.length();
+            for (int i = 0; i < tofill ;i++){
+                result = result.concat(""+random.nextInt(9));
+            }
+        }
+
+        Long l = Long.parseLong(result);
+        return l;
     }
 
 
