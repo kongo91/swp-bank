@@ -14,7 +14,7 @@ public class BankAccountConverter {
         dto.setIsCard(b.getIsCard());
         dto.setAccountNumber(b.getAccountNumber());
         dto.setBalance(b.getBalance());
-        dto.setAccountType(b.getAccountType().name().toLowerCase());
+        dto.setAccountType(b.getAccountType().toLowerCase());
         dto.setCurrency(b.getCurrency().name().toLowerCase());
 
         return dto;

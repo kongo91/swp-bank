@@ -11,14 +11,12 @@ import pl.edu.wat.wcy.swp.bank.dtos.TransactionDTO;
 import pl.edu.wat.wcy.swp.bank.dtos.convertrs.BankAccountConverter;
 import pl.edu.wat.wcy.swp.bank.dtos.convertrs.TransactionConverter;
 import pl.edu.wat.wcy.swp.bank.entities.*;
-import pl.edu.wat.wcy.swp.bank.repositories.BankAccountRepository;
-import pl.edu.wat.wcy.swp.bank.repositories.CustomerRepository;
-import pl.edu.wat.wcy.swp.bank.repositories.ProfilRepository;
-import pl.edu.wat.wcy.swp.bank.repositories.TransactionRepository;
+import pl.edu.wat.wcy.swp.bank.repositories.*;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -32,6 +30,7 @@ public class XMLController {
     private final static String subdialog_login_line = "<!--SAYDATELOGIN-->";
     private final static String subdialog_is_login = "<!--ISLOGIN-->";
     private final static String subdialog_balance_line = "<!--SAYBALANCE-->";
+    private final static String type_rule_line = "<!--TYPERULE-->";
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -44,6 +43,9 @@ public class XMLController {
 
     @Autowired
     private ProfilRepository profilRepository;
+
+    @Autowired
+    private BankAccountTypesRepository bankAccountTypesRepository;
 
 
     @RequestMapping(value = "/login/{id}/{pin}", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
@@ -181,13 +183,14 @@ public class XMLController {
         bankAccount.setProfil(p);
         bankAccount.setBalance(0.0f);
         bankAccount.setIsCard(isCard);
+        bankAccount.setAccountType(type.toUpperCase());
 
-        for(BankAccountType t: BankAccountType.values()){
+        /*for(BankAccountType t: BankAccountType.values()){
             if (type.toLowerCase().equals(t.name().toLowerCase())){
                 bankAccount.setAccountType(t);
                 break;
             }
-        }
+        }*/
 
         for(CurrencyType ct: CurrencyType.values()){
             if (currency.toLowerCase().equals(ct.name().toLowerCase())){
@@ -219,4 +222,48 @@ public class XMLController {
     }
 
 
-}
+    @RequestMapping(value = "/grammar", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseBody
+    public String getGrammar() {
+
+
+        Logger logger = Logger.getLogger("XMLController");
+        logger.info("GetGrammar ");
+        File xml = new File("D:\\Workspace\\xml\\dynamic.xml");
+        BufferedReader br = null;
+        StringBuilder sb = new StringBuilder();
+
+        List<String> types = bankAccountTypesRepository.getAllTypes();
+
+        try {
+
+            br = new BufferedReader(new FileReader(xml));
+
+            String line;
+
+
+            while ((line = br.readLine())!= null){
+                if (line.contains(type_rule_line)){
+                    StringBuilder sbline = new StringBuilder();
+                    for(String s: types){
+                        sbline.append("\t\t\t\t\t\t").append("[ ( ").append(s.toLowerCase()).append(" ) ( ").append(s.toLowerCase()).append(" type ) ] \t\t\t{ <type \"").append(s.toLowerCase()).append("\"> }").append("\n");
+                    }
+                    line = sbline.toString();
+                }
+                sb.append(line).append("\n");
+            }
+
+            br.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return sb.toString();
+
+    }
+
+    }

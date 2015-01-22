@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import pl.edu.wat.wcy.swp.bank.dtos.TransactionDTO;
 import pl.edu.wat.wcy.swp.bank.entities.*;
-import pl.edu.wat.wcy.swp.bank.repositories.BankAccountRepository;
-import pl.edu.wat.wcy.swp.bank.repositories.CustomerRepository;
-import pl.edu.wat.wcy.swp.bank.repositories.ProfilRepository;
-import pl.edu.wat.wcy.swp.bank.repositories.TransactionRepository;
+import pl.edu.wat.wcy.swp.bank.repositories.*;
 import pl.edu.wat.wcy.swp.bank.services.interfaces.CustomerService;
 
 import java.util.*;
@@ -40,6 +37,9 @@ public class CustomerController {
 
     @Autowired
     private TransactionRepository transactionRepository;
+
+    @Autowired
+    private BankAccountTypesRepository bankAccountTypesRepository;
 
     @RequestMapping("/hello")
     public ModelAndView hello(){
@@ -138,10 +138,7 @@ public class CustomerController {
             tTypes.add(t.toString());
         }
 
-        List<String> accountsTypes = new ArrayList<String>();
-        for (BankAccountType t : BankAccountType.values()){
-            accountsTypes.add(t.toString());
-        }
+        List<String> accountsTypes = bankAccountTypesRepository.getAllTypes();
 
         List<String> accountsNumber = new ArrayList<String>();
         for (BankAccount t : accounts){
@@ -209,17 +206,29 @@ public class CustomerController {
             transactionRepository.saveAndFlush(transaction);
         }
 
+        if(transaction.getTransactionType().equals(TransactionType.INCOMING))
+            b.setBalance(b.getBalance()+transaction.getAmount());
+        else
+            b.setBalance(b.getBalance()-transaction.getAmount());
+        bankAccountRepository.saveAndFlush(b);
+
         return "redirect:../show/"+id;
     }
 
     @RequestMapping(value = "/deletetransaction/{id}/{tid}", method = RequestMethod.POST)
-    public String deleteTransactio(@PathVariable Long id, @PathVariable Long tid, Model model){
+    public String deleteTransaction(@PathVariable Long id, @PathVariable Long tid, Model model){
 
         Logger log = Logger.getLogger("Contorller");
         log.info("Delete transaction: "+tid+ ", on customer id: "+id);
 
         Transaction t = transactionRepository.findOne(tid);
         if (t != null){
+            BankAccount b = bankAccountRepository.findOne(t.getBankAccount().getAccountNumber());
+            if(t.getTransactionType().equals(TransactionType.INCOMING))
+                b.setBalance(b.getBalance()-t.getAmount());
+            else
+                b.setBalance(b.getBalance() + t.getAmount());
+            bankAccountRepository.saveAndFlush(b);
             transactionRepository.delete(t);
         }
 

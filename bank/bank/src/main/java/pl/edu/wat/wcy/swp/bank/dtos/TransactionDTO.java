@@ -41,6 +41,17 @@ public class TransactionDTO {
     @XmlElement
     private String transactionType;
 
+    @XmlElement
+    private Boolean isTransaction;
+
+    public Boolean getIsTransaction() {
+        return isTransaction;
+    }
+
+    public void setIsTransaction(Boolean isTransaction) {
+        this.isTransaction = isTransaction;
+    }
+
     public Long getId() {
         return id;
     }

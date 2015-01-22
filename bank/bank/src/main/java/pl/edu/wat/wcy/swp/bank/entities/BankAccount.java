@@ -22,8 +22,7 @@ public class BankAccount {
 
     @Column
     @XmlElement
-    @Enumerated(EnumType.STRING)
-    private BankAccountType accountType;
+    private String accountType;
 
     @Column
     @XmlElement
@@ -54,11 +53,11 @@ public class BankAccount {
         this.accountNumber = accountNumber;
     }
 
-    public BankAccountType getAccountType() {
+    public String getAccountType() {
         return accountType;
     }
 
-    public void setAccountType(BankAccountType accountType) {
+    public void setAccountType(String accountType) {
         this.accountType = accountType;
     }
 

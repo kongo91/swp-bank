@@ -13,22 +13,28 @@ public class TransactionConverter {
 
     public static TransactionDTO toDTO(Transaction t){
 
-        TransactionDTO tDTO = new TransactionDTO();
-        tDTO.setAdress(t.getAdress());
-        tDTO.setName(t.getName());
-        tDTO.setAmount(t.getAmount());
-        tDTO.setId(t.getId());
-        if (t.getTransactionDateTime()!= null);{
-            SimpleDateFormat sdfdate = new SimpleDateFormat("yyyyMMdd");
-            SimpleDateFormat sdftime = new SimpleDateFormat("HHmmss");
-            tDTO.setDate(sdfdate.format(t.getTransactionDateTime()));
-            tDTO.setTime(sdftime.format(t.getTransactionDateTime()));
-        }
-        tDTO.setSurname(t.getSurname());
-        tDTO.setAdress(t.getAdress());
-        tDTO.setTitle(t.getTitle());
-        tDTO.setTransactionType(t.getTransactionType().toString());
 
+        TransactionDTO tDTO = new TransactionDTO();
+        if (t.getId() != null) {
+            tDTO.setAdress(t.getAdress());
+            tDTO.setName(t.getName());
+            tDTO.setAmount(t.getAmount());
+            tDTO.setId(t.getId());
+            if (t.getTransactionDateTime() != null) ;
+            {
+                SimpleDateFormat sdfdate = new SimpleDateFormat("yyyyMMdd");
+                SimpleDateFormat sdftime = new SimpleDateFormat("HHmmss");
+                tDTO.setDate(sdfdate.format(t.getTransactionDateTime()));
+                tDTO.setTime(sdftime.format(t.getTransactionDateTime()));
+            }
+            tDTO.setSurname(t.getSurname());
+            tDTO.setAdress(t.getAdress());
+            tDTO.setTitle(t.getTitle());
+            tDTO.setTransactionType(t.getTransactionType().toString());
+            tDTO.setIsTransaction(true);
+        }else{
+            tDTO.setIsTransaction(false);
+        }
         return tDTO;
     }
 
