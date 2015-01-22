@@ -1,0 +1,19 @@
+MainRule(
+					
+					?[ (i want) (i want to) ]
+					Rule
+					?Rule
+					?Rule
+					)
+				
+				Rule(
+					[
+						"<!--TYPERULE-->"
+						
+						[ ?[ in ] dollar dollars usd ] 			{ <currency "usd"> }
+						[ ?[ in ] euro eur ]   					{ <currency "eur"> }
+						
+						[ ( with ) ( yes ) (with card) ] 		{ <card "with"> }
+						[ ( without ) ( no ) (without card) ]  	{ <card "without"> }
+					
+					])

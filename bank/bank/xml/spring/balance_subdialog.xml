@@ -10,6 +10,8 @@
 				<!--SAYBALANCE-->
 				<break size="small"/><break size="small"/> 
 			</prompt>
+			<var name="succeed" expr="'1'" />
+			<return namelist="succeed" />
         </block>
 	</form>
 	
